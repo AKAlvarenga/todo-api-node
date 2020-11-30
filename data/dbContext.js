@@ -8,9 +8,9 @@ let db = new sqlite3.Database('todo.db', (err) => {
   } else {
     console.log('Connected to the SQLite database');
     db.run(`CREATE TABLE Task (
-        Id INTEGER not null primary key autoincrement,
-        Description TEXT,
-        Completed   INTEGER not null
+        id INTEGER not null primary key autoincrement,
+        description TEXT,
+        completed   INTEGER not null
       )`, (err) => {
       if (err) {
         console.log('Table already exists');

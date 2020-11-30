@@ -2,9 +2,10 @@ const express = require('express');
 const app = express();
 const db = require('./data/dbContext');
 const bodyParser = require("body-parser");
+const cors = require('cors');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get('/api/task', (req, res) => {
   const sql = "SELECT * FROM Task";
   db.all(sql, [], (err, rows) => {
@@ -16,9 +17,9 @@ app.get('/api/task', (req, res) => {
 });
 
 app.post('/api/task', (req, res) => {
-  const sql = "INSERT INTO Task (Description, Completed) VALUES (?, ?)";
-  const {Description} = req.body;
-  const params = [Description, false];
+  const sql = "INSERT INTO Task (description, completed) VALUES (?, ?)";
+  const {description} = req.body;
+  const params = [description, false];
   db.run(sql, params, (err, result) => {
     if (err) {
       res.status(400).json({error: err.message});
@@ -27,7 +28,7 @@ app.post('/api/task', (req, res) => {
   })
 })
 
-const PORT = process.env.NODE_ENV === 'production' ? process.env.PORT : 8080;
+const PORT = process.env.NODE_ENV === 'production' ? process.env.PORT : 8081;
 
 app.listen(PORT, () => {
   console.log(`Server listening in port: ${PORT}`);
